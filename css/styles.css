@@ -1,33 +1,30 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.main-image{
-    border-radius: 2rem;
-   
-    width: 50vw;
-    display: block;
-    margin: auto;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+.main-image {
+  border-radius: 2rem;
+  width: 50rem;
+  display: block;
+  margin: auto;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
 }
-.image-row{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.image-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.image-row  img{
-    border-radius: 1rem;
-    width: 10rem;
-    object-fit: cover;
-    cursor: pointer;
-    margin:0.5rem;
-   opacity: 0.5;
-    
-    
+.image-row img {
+  border-radius: 1rem;
+  width: 10rem;
+  object-fit: cover;
+  cursor: pointer;
+  margin: 0.5rem;
+  opacity: 0.5;
 }
-.active{
-    opacity: 1 !important;
-    border: 0.3rem solid red;
+.active {
+  opacity: 1 !important;
+  border: 0.3rem solid red;
 }

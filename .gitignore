@@ -1,0 +1,5 @@
+/node_modules
+
+# production
+.package.json
+.package-lock.json

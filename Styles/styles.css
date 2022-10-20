@@ -1,15 +1,30 @@
+@import url("/Styles/constant.css");
 * {
   margin: 0;
   padding: 0;
 }
-
+.container {
+  padding: 3rem 0.5rem;
+}
 .main-image {
   border-radius: 2rem;
   width: 25rem;
   display: block;
   margin: auto;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* dropdown */
+.drop-down-container {
+  display: flex;
+  justify-content: center;
+}
+.drop-down {
+  font-size: 1.2rem;
+  padding: 0.3rem 1rem;
 }
 img {
   width: 100%;

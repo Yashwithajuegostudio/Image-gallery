@@ -5,11 +5,15 @@
 
 .main-image {
   border-radius: 2rem;
-  width: 50rem;
+  width: 25rem;
   display: block;
   margin: auto;
   margin-top: 5rem;
   margin-bottom: 5rem;
+}
+img {
+  width: 100%;
+  display: inline-block;
 }
 .image-row {
   display: flex;
@@ -22,9 +26,7 @@
   object-fit: cover;
   cursor: pointer;
   margin: 0.5rem;
-  opacity: 0.5;
 }
 .active {
-  opacity: 1 !important;
   border: 0.3rem solid red;
 }

@@ -1,13 +1,30 @@
-const images = document.querySelectorAll(".image-row img");
+function showDropDown() {
+  const elSelectCustom = document.getElementsByClassName("js-selectCustom")[0];
+  const elSelectCustomValue = elSelectCustom.children[0];
+  const elSelectCustomOptions = elSelectCustom.children[1];
+  const defaultLabel = elSelectCustomValue.getAttribute("data-value");
 
-const mainImage = document.getElementById("mainimg");
-
-for (image of images) {
-  image.addEventListener("click", (e) => {
-    images.forEach((element) => {
-      element.classList.remove("active");
+  // Listen for each custom option click
+  Array.from(elSelectCustomOptions.children).forEach(function (elOption) {
+    elOption.addEventListener("click", (e) => {
+      // Update custom select text too
+      elSelectCustomValue.textContent = e.target.textContent;
+      // Close select
+      elSelectCustom.classList.remove("isActive");
     });
-    mainImage.src = e.target.src;
-    e.target.classList.add("active");
+  });
+
+  // Toggle select on label click
+  elSelectCustomValue.addEventListener("click", (e) => {
+    elSelectCustom.classList.toggle("isActive");
+  });
+
+  // close the custom select when clicking outside.
+  document.addEventListener("click", (e) => {
+    const didClickedOutside = !elSelectCustom.contains(event.target);
+    if (didClickedOutside) {
+      elSelectCustom.classList.remove("isActive");
+    }
   });
 }
+export { showDropDown };

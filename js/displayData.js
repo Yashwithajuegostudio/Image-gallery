@@ -5,6 +5,7 @@ function showDropDownData(arr) {
       const selectList = document.querySelector("#selectList");
       const nodes = arr.map((arr) => {
         const option = document.createElement("option");
+        option.className = "option-value";
         option.textContent = arr;
         return option;
       });

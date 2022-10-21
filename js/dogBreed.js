@@ -1,5 +1,6 @@
 import { getApiCall } from "./apiHelper";
 import { showDropDownData } from "./displayData";
+import { showDropDown } from "./index";
 
 const getUrl = "https://dog.ceo/api/breeds/list/all";
 const getData = (data) => {
@@ -17,3 +18,5 @@ function show(data) {
   });
   showDropDownData(filteredValue);
 }
+
+showDropDown();

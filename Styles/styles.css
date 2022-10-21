@@ -6,40 +6,46 @@
 .container {
   padding: 3rem 0.5rem;
 }
-.main-image {
-  border-radius: 2rem;
-  width: 25rem;
-  display: block;
-  margin: auto;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+.main-conatiner {
   display: flex;
+  gap: 3rem;
   justify-content: center;
   align-items: center;
+  margin-bottom: 3rem;
 }
-/* dropdown */
-.drop-down-container {
-  display: flex;
-  justify-content: center;
+.main-image {
+  width: 20rem;
+  border: 1px solid black;
+  height: 17rem;
+  border-radius: 2rem;
 }
-.select-list {
-  font-size: 1.2rem;
-  padding: 0.3rem 1rem;
-}
-.dropdown {
-  border: 0.2rem solid grey;
-}
-.option {
-  display: none;
+.image {
+  width: 50%;
+  height: 7rem;
+  border: 1px solid black;
+  overflow-x: scroll;
 }
 img {
   width: 100%;
   display: inline-block;
 }
-.image-row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+
+/* previous and next arrow */
+.previous {
+  background-color: var(--light-grey-color);
+  color: black;
+}
+
+.next {
+  background-color: var(--dark-blue-color);
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
 }
 .image-row img {
   border-radius: 1rem;
@@ -68,6 +74,7 @@ img {
 
 .selectWrapper {
   position: relative;
+  margin-bottom: 2rem;
 }
 
 .selectCustom {
@@ -85,8 +92,6 @@ img {
 
 .selectCustom-trigger {
   position: relative;
-  width: 100%;
-  height: 100%;
   background-color: white;
   padding: 0.7rem 0.8rem;
 }
@@ -102,7 +107,7 @@ img {
 .selectCustom-options {
   position: absolute;
   left: 0;
-  width: 20rem;
+  width: 18rem;
   height: 13rem;
   border: 0.1rem solid var(--dark-grey-color);
   border-radius: 0.4rem;

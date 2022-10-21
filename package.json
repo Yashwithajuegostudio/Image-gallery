@@ -1,4 +1,11 @@
+
 {
+  "name": "my-project",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "start": "parcel Imagegallery.html",
+    "build": "parcel build Imagegallery.html"
+  },
   "devDependencies": {
     "parcel": "^2.7.0"
   }

@@ -3,7 +3,8 @@ import {
   showDropDown,
   removeAllChildNodes,
   removeSingleChildNode,
-} from "./common";
+  slideShow,
+} from "./helper";
 
 const dogBreedNameUrl = "https://dog.ceo/api/breeds/list/all";
 const getData = (data) => {
@@ -22,7 +23,7 @@ function displayBreedName(data) {
 }
 // display drop down
 showDropDown();
-
+slideShow();
 function getBreedImageApiData(breedName) {
   const dogBreedImageUrl = `https://dog.ceo/api/breed/${breedName}/images`;
   const getData = (data) => {
@@ -43,14 +44,18 @@ function displayImageData(data) {
   if (!maincontainer.hasChildNodes()) {
     const mainImage = document.createElement("img");
     mainImage.src = breedImageArray[0];
+    mainImage.id = "main-image";
     maincontainer.appendChild(mainImage);
   }
   if (!selectList.hasChildNodes()) {
-    const nodes = breedImageArray.map((breedImageList) => {
+    const nodes = breedImageArray.map((breedImageList, i) => {
       const dogBreedImageConatiner = document.createElement("div");
       const dogBreedImage = document.createElement("img");
       dogBreedImageConatiner.className = "image-conatiner";
       dogBreedImage.src = breedImageList;
+      if (dogBreedImage.src === breedImageArray[0]) {
+        dogBreedImage.className = "active";
+      }
       dogBreedImageConatiner.appendChild(dogBreedImage);
       return dogBreedImageConatiner;
     });

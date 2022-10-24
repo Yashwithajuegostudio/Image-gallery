@@ -14,8 +14,8 @@
   margin-bottom: 3rem;
 }
 .main-image {
-  width: 20rem;
-  height: 20rem;
+  width: 18rem;
+  height: 18rem;
   border: 1px solid black;
   border-radius: 2rem;
 }
@@ -150,4 +150,7 @@ img {
   width: 5rem;
   cursor: pointer;
   margin: 0.5rem;
+}
+.active {
+  border: 0.2rem solid red;
 }

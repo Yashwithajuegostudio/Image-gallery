@@ -35,4 +35,33 @@ function removeSingleChildNode(parent) {
   const child = parent.lastChild;
   parent.removeChild(child);
 }
-export { showDropDown, removeAllChildNodes, removeSingleChildNode };
+function slideShow() {
+  const images = document.querySelectorAll(".slide .image-conatiner ");
+  const mainImage = document.getElementById("main-image");
+  const prev = document.querySelectorAll(".previous");
+  const next = document.querySelectorAll(".next");
+  for (let i = 0; i < next.length; i++) {
+    next[i].addEventListener("click", showComment, false);
+  }
+  for (let i = 0; i < prev.length; i++) {
+    prev[i].addEventListener("click", showback, false);
+  }
+
+  for (let j = 0; j < images.length; j++) {
+    images[j].addEventListener("click", (e) => {
+      console.log("clicked");
+      images.forEach((element) => {
+        element.classList.remove("active");
+      });
+      mainImage.src = e.target.src;
+      e.target.classList.add("active");
+    });
+  }
+}
+function showComment() {
+  console.log("hi");
+}
+function showback() {
+  console.log("hello");
+}
+export { showDropDown, removeAllChildNodes, removeSingleChildNode, slideShow };

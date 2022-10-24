@@ -1,28 +1,71 @@
+const prev = document.getElementsByClassName("prev");
+const next = document.getElementsByClassName("next");
+const images = document.getElementsByClassName("dog-image");
+const mainImage = document.getElementById("main-image");
+
+let currentIndex = 0;
+// buttons functionality
+for (let prevBtn of prev) {
+  prevBtn.addEventListener("click", function onClick() {
+    for (let i = currentIndex; i < images.length - 1; i++) {
+      currentIndex = i;
+      images[currentIndex].classList.remove("active");
+      if (
+        currentIndex - 1 !== currentIndex &&
+        currentIndex - 1 < images.length - 1 &&
+        currentIndex > 0
+      ) {
+        let child = mainImage.firstChild;
+        child.src = images[currentIndex - 1].src;
+        images[currentIndex - 1].classList.add("active");
+        currentIndex--;
+        break;
+      }
+    }
+  });
+  if (currentIndex === images.length - 1) {
+    prevBtn.classList.add("disabled");
+    prev[0].classList.add("disabled");
+  }
+}
+for (let nextBtn of next) {
+  nextBtn.addEventListener("click", function onClick() {
+    for (let i = currentIndex; i < images.length - 1; i++) {
+      currentIndex = i;
+      images[currentIndex].classList.remove("active");
+      if (
+        currentIndex + 1 !== currentIndex &&
+        currentIndex + 1 < images.length
+      ) {
+        let child = mainImage.firstChild;
+        child.src = images[currentIndex + 1].src;
+        images[currentIndex + 1].classList.add("active");
+        currentIndex++;
+        break;
+      }
+    }
+    if (currentIndex == images.length - 1) {
+      nextBtn.classList.add("disabled");
+      next[0].classList.add("disabled");
+    }
+  });
+}
+
 function showDropDown() {
-  const elSelectCustom = document.getElementsByClassName("js-selectCustom")[0];
-  const elSelectCustomValue = elSelectCustom.children[0];
-  const elSelectCustomOptions = elSelectCustom.children[1];
-  const defaultLabel = elSelectCustomValue.getAttribute("data-value");
+  const customSelectBtn = document.getElementsByClassName("selectCustom")[0];
+  const customSelectDefaultValue = customSelectBtn.children[0];
+  const customSelectOptions = customSelectBtn.children[1];
 
   // Toggle select on label click
-  elSelectCustomValue.addEventListener("click", () => {
-    Array.from(elSelectCustomOptions.children).forEach(function (elOption) {
-      elOption.addEventListener("click", (e) => {
-        // Update custom select text too
-        elSelectCustomValue.textContent = e.target.textContent;
-        // Close select
-        elSelectCustom.classList.remove("isActive");
+  customSelectDefaultValue.addEventListener("click", () => {
+    Array.from(customSelectOptions.children).forEach(function (option) {
+      option.addEventListener("click", (e) => {
+        customSelectDefaultValue.textContent = e.target.textContent;
+
+        customSelectBtn.classList.remove("isActive");
       });
     });
-    elSelectCustom.classList.toggle("isActive");
-  });
-
-  // close the custom select when clicking outside.
-  document.addEventListener("click", (e) => {
-    const didClickedOutside = !elSelectCustom.contains(e.target);
-    if (didClickedOutside) {
-      elSelectCustom.classList.remove("isActive");
-    }
+    customSelectBtn.classList.toggle("isActive");
   });
 }
 function removeAllChildNodes(parent) {
@@ -35,33 +78,5 @@ function removeSingleChildNode(parent) {
   const child = parent.lastChild;
   parent.removeChild(child);
 }
-function slideShow() {
-  const images = document.querySelectorAll(".slide .image-conatiner ");
-  const mainImage = document.getElementById("main-image");
-  const prev = document.querySelectorAll(".previous");
-  const next = document.querySelectorAll(".next");
-  for (let i = 0; i < next.length; i++) {
-    next[i].addEventListener("click", showComment, false);
-  }
-  for (let i = 0; i < prev.length; i++) {
-    prev[i].addEventListener("click", showback, false);
-  }
 
-  for (let j = 0; j < images.length; j++) {
-    images[j].addEventListener("click", (e) => {
-      console.log("clicked");
-      images.forEach((element) => {
-        element.classList.remove("active");
-      });
-      mainImage.src = e.target.src;
-      e.target.classList.add("active");
-    });
-  }
-}
-function showComment() {
-  console.log("hi");
-}
-function showback() {
-  console.log("hello");
-}
-export { showDropDown, removeAllChildNodes, removeSingleChildNode, slideShow };
+export { showDropDown, removeAllChildNodes, removeSingleChildNode };

@@ -36,11 +36,10 @@
 img {
   width: 100%;
   height: 100%;
-  display: inline-block;
 }
 
 /* previous and next arrow */
-.previous {
+.prev {
   background-color: var(--light-grey-color);
   color: black;
 }
@@ -49,17 +48,22 @@ img {
   background-color: var(--dark-blue-color);
   color: white;
 }
-
-.round {
+.disabled {
+  background-color: var(--light-grey-color);
+  color: black;
+}
+.enabled {
+  background-color: var(--dark-blue-color);
+  color: white;
+}
+.btn {
+  border: none;
+  outline: none;
   border-radius: 50%;
   text-decoration: none;
-  display: inline-block;
   padding: 8px 16px;
 }
 
-.active {
-  border: 0.3rem solid red;
-}
 /* drop down */
 .select {
   position: relative;

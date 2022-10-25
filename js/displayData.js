@@ -29,11 +29,9 @@ function getBreedImageApiData(breedName) {
 }
 
 function displayImageData(data) {
-  const breedImageArray = [];
-  Object.values(data.message).forEach((value) => {
-    breedImageArray.push(value);
+  const breedImageArray = Object.values(data.message).map((value) => {
+    return value;
   });
-
   const maincontainer = document.querySelector("#main-image");
   const selectList = document.querySelector("#image-conatiner");
 

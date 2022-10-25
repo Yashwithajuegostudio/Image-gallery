@@ -2,7 +2,6 @@ const prev = document.getElementsByClassName("prev");
 const next = document.getElementsByClassName("next");
 const images = document.getElementsByClassName("dog-image");
 const mainImage = document.getElementById("main-image");
-const dogImageConatiner = document.getElementsByClassName("image-conatiner");
 let currentIndex = 0;
 
 for (let prevBtn of prev) {
@@ -112,4 +111,10 @@ function removeSingleChildNode(parent) {
   parent.removeChild(child);
 }
 
-export { showDropDown, removeAllChildNodes, removeSingleChildNode };
+export {
+  showDropDown,
+  removeAllChildNodes,
+  removeSingleChildNode,
+  currentIndex,
+  images,
+};

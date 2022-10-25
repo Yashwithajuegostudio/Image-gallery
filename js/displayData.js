@@ -3,12 +3,12 @@ import {
   showDropDown,
   removeAllChildNodes,
   removeSingleChildNode,
+  currentIndex,
+  images,
 } from "./helper";
 import { dogBreedNameUrl } from "./constant";
-const getData = (data) => {
-  displayBreedName(data);
-};
-getApiCall(dogBreedNameUrl, getData);
+getApiCall(dogBreedNameUrl, displayBreedName);
+let previousIndex = currentIndex;
 
 function displayBreedName(data) {
   const breedNameArray = Object.keys(data.message).filter(
@@ -21,18 +21,12 @@ showDropDown();
 // display Image data
 function getBreedImageApiData(breedName) {
   const dogBreedImageUrl = `https://dog.ceo/api/breed/${breedName}/images`;
-  const getData = (data) => {
-    displayImageData(data);
-  };
-  getApiCall(dogBreedImageUrl, getData);
+  getApiCall(dogBreedImageUrl, displayImageData);
 }
 
 function displayImageData(data) {
   const breedImageArray = Object.values(data.message).filter(
     (value) => value.length > 0
-    // {
-    //   return value;
-    // }
   );
   const maincontainer = document.querySelector("#main-image");
   const breedImageContainer = document.querySelector("#image-conatiner");
@@ -48,18 +42,34 @@ function displayImageData(data) {
       const dogBreedImageConatiner = document.createElement("div");
       const dogBreedImage = document.createElement("img");
       dogBreedImage.className = "dog-image";
+      dogBreedImage.onclick = (e) =>
+        activateImageConatiner(i, e, dogBreedImage);
       dogBreedImageConatiner.className = "image-conatiner";
       dogBreedImage.src = breedImageList;
       if (dogBreedImage.src === breedImageArray[0]) {
         dogBreedImage.className = "dog-image active";
       }
       dogBreedImageConatiner.appendChild(dogBreedImage);
+      dogImageArray = dogBreedImage;
+
       return dogBreedImageConatiner;
     });
 
     breedImageContainer.append(...nodes);
   }
 }
+function activateImageConatiner(imageCurrentIndex, e, imageArry) {
+  if (imageCurrentIndex !== previousIndex) {
+    images[previousIndex].classList.remove("active");
+    previousIndex = imageCurrentIndex;
+    currentIndex = imageCurrentIndex;
+    e.target.classList.add("active");
+    console.log(previousIndex, imageCurrentIndex, currentIndex);
+  } else {
+    e.target.classList.remove("active");
+  }
+}
+
 function showDropDownData(dogBreedNameList) {
   const selectList = document.querySelector("#selectList");
   const nodes = dogBreedNameList.map((dogBreedNameList) => {
@@ -77,12 +87,6 @@ function showDropDownData(dogBreedNameList) {
         removeAllChildNodes(breedImageContainer);
       }
       getBreedImageApiData(option.value);
-      const dog = document.getElementsByClassName("dog-image");
-      console.log(dog.length);
-      console.log(dog);
-      for (let i = 0; i < dog.length; i++) {
-        console.log(dog[i]);
-      }
     });
     return option;
   });

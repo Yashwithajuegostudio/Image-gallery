@@ -2,38 +2,22 @@ const prev = document.getElementsByClassName("prev");
 const next = document.getElementsByClassName("next");
 const images = document.getElementsByClassName("dog-image");
 const mainImage = document.getElementById("main-image");
-const dogBreedImageConatiner =
-  document.getElementsByClassName("image-conatiner");
+const dogImageConatiner = document.getElementsByClassName("image-conatiner");
 let currentIndex = 0;
-// buttons functionality
-for (items of dogBreedImageConatiner) {
-  console.log(items);
-  items.addEventListener("click", (e) => {
-    images.forEach((element) => {
-      element.classList.remove("active");
-    });
-    mainImage.src = e.target.src;
-    e.target.classList.add("active");
-  });
-}
+
 for (let prevBtn of prev) {
   prevBtn.addEventListener("click", function onClick() {
     if (currentIndex === images.length - 1) {
-      removeActiveImage(images[currentIndex]);
-
-      console.log(
-        "prev btn current index",
-        currentIndex - 1,
-        images[currentIndex - 1],
-        images.length - 2
-      );
-      currentIndex = currentIndex - 1;
+      prevBtn.classList.add("enabled");
+      prev[0].classList.add("enabled");
+      images[currentIndex].classList.remove("active");
       images[currentIndex - 1].classList.add("active");
-
-      console.log("currentinsdec", currentIndex);
     }
-    for (let i = currentIndex; i < images.length - 1; i++) {
-      console.log(currentIndex);
+    for (let i = currentIndex; i <= images.length - 1; i++) {
+      if (currentIndex === 1) {
+        prevBtn.classList.remove("enabled");
+        prev[0].classList.remove("enabled");
+      }
       currentIndex = i;
       images[currentIndex].classList.remove("active");
       if (
@@ -49,25 +33,19 @@ for (let prevBtn of prev) {
       }
     }
   });
-  if (currentIndex === images.length - 1) {
-    prevBtn.classList.add("disabled");
-    prev[0].classList.add("disabled");
-  }
 }
-function removeActiveImage(array) {
-  array.classList.remove("active");
-}
+
 for (let nextBtn of next) {
   nextBtn.addEventListener("click", function onClick() {
-    if (currentIndex === images.length - 2) {
-      console.log(
-        "next btn current index",
-        currentIndex,
-        images[currentIndex],
-        images.length - 2
-      );
+    if (currentIndex + 1 == images.length - 1) {
+      nextBtn.classList.add("disabled");
+      next[0].classList.add("disabled");
     }
-    for (let i = currentIndex; i < images.length - 1; i++) {
+    for (let i = currentIndex; i <= images.length - 1; i++) {
+      if (currentIndex == 0) {
+        nextBtn.classList.remove("disabled");
+        next[0].classList.remove("disabled");
+      }
       currentIndex = i;
       images[currentIndex].classList.remove("active");
       if (
@@ -80,10 +58,6 @@ for (let nextBtn of next) {
         currentIndex++;
         break;
       }
-    }
-    if (currentIndex == images.length - 1) {
-      nextBtn.classList.add("disabled");
-      next[0].classList.add("disabled");
     }
   });
 }
@@ -104,10 +78,31 @@ function showDropDown() {
     });
     customSelectBtn.classList.toggle("isActive");
   });
+  // close the custom select when clicking outside.
+  document.addEventListener("click", (e) => {
+    const didClickedOutside = !customSelectBtn.contains(e.target);
+    if (didClickedOutside) {
+      customSelectBtn.classList.remove("isActive");
+    }
+  });
 }
 function removeAllChildNodes(parent) {
   while (parent.firstChild) {
     currentIndex = 0;
+    for (let prevBtn of prev) {
+      if (prevBtn.classList.contains("enabled")) {
+        prevBtn.classList.add("disabled");
+      } else {
+        prevBtn.classList.remove("disabled");
+      }
+    }
+    for (let nextBtn of next) {
+      if (nextBtn.classList.contains("disabled")) {
+        nextBtn.classList.add("enabled");
+      } else {
+        nextBtn.classList.remove("enabled");
+      }
+    }
     parent.removeChild(parent.firstChild);
   }
 }

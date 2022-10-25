@@ -5,7 +5,6 @@ import {
   removeSingleChildNode,
 } from "./helper";
 import { dogBreedNameUrl } from "./constant";
-
 const getData = (data) => {
   displayBreedName(data);
 };
@@ -29,11 +28,14 @@ function getBreedImageApiData(breedName) {
 }
 
 function displayImageData(data) {
-  const breedImageArray = Object.values(data.message).map((value) => {
-    return value;
-  });
+  const breedImageArray = Object.values(data.message).filter(
+    (value) => value.length > 0
+    // {
+    //   return value;
+    // }
+  );
   const maincontainer = document.querySelector("#main-image");
-  const selectList = document.querySelector("#image-conatiner");
+  const breedImageContainer = document.querySelector("#image-conatiner");
 
   if (!maincontainer.hasChildNodes()) {
     const mainImage = document.createElement("img");
@@ -41,7 +43,7 @@ function displayImageData(data) {
     mainImage.id = "main-dog-image";
     maincontainer.appendChild(mainImage);
   }
-  if (!selectList.hasChildNodes()) {
+  if (!breedImageContainer.hasChildNodes()) {
     const nodes = breedImageArray.map((breedImageList, i) => {
       const dogBreedImageConatiner = document.createElement("div");
       const dogBreedImage = document.createElement("img");
@@ -55,7 +57,7 @@ function displayImageData(data) {
       return dogBreedImageConatiner;
     });
 
-    selectList.append(...nodes);
+    breedImageContainer.append(...nodes);
   }
 }
 function showDropDownData(dogBreedNameList) {
@@ -66,15 +68,25 @@ function showDropDownData(dogBreedNameList) {
     option.textContent = dogBreedNameList;
     option.addEventListener("click", () => {
       const maincontainer = document.querySelector("#main-image");
-      const selectList = document.querySelector("#image-conatiner");
-      if (maincontainer.hasChildNodes() || selectList.hasChildNodes()) {
+      const breedImageContainer = document.querySelector("#image-conatiner");
+      if (
+        maincontainer.hasChildNodes() ||
+        breedImageContainer.hasChildNodes()
+      ) {
         removeSingleChildNode(maincontainer);
-        removeAllChildNodes(selectList);
+        removeAllChildNodes(breedImageContainer);
       }
       getBreedImageApiData(option.value);
+      const dog = document.getElementsByClassName("dog-image");
+      console.log(dog.length);
+      console.log(dog);
+      for (let i = 0; i < dog.length; i++) {
+        console.log(dog[i]);
+      }
     });
     return option;
   });
 
   selectList.append(...nodes);
 }
+export { breedImageArray };

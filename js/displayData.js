@@ -3,12 +3,14 @@ import {
   showDropDown,
   removeAllChildNodes,
   removeSingleChildNode,
-  currentIndex,
   images,
+  showSliderChanges,
+  maincontainer,
+  breedImageContainer,
 } from "./helper";
 import { dogBreedNameUrl } from "./constant";
 getApiCall(dogBreedNameUrl, displayBreedName);
-let previousIndex = currentIndex;
+let previousIndex = 0;
 
 function displayBreedName(data) {
   const breedNameArray = Object.keys(data.message).filter(
@@ -18,6 +20,8 @@ function displayBreedName(data) {
 }
 // display drop down
 showDropDown();
+// slider changes
+// showSliderChanges();
 // display Image data
 function getBreedImageApiData(breedName) {
   const dogBreedImageUrl = `https://dog.ceo/api/breed/${breedName}/images`;
@@ -28,8 +32,6 @@ function displayImageData(data) {
   const breedImageArray = Object.values(data.message).filter(
     (value) => value.length > 0
   );
-  const maincontainer = document.querySelector("#main-image");
-  const breedImageContainer = document.querySelector("#image-conatiner");
 
   if (!maincontainer.hasChildNodes()) {
     const mainImage = document.createElement("img");
@@ -42,8 +44,11 @@ function displayImageData(data) {
       const dogBreedImageConatiner = document.createElement("div");
       const dogBreedImage = document.createElement("img");
       dogBreedImage.className = "dog-image";
-      dogBreedImage.onclick = (e) =>
-        activateImageConatiner(i, e, dogBreedImage);
+      dogBreedImage.onclick = (e) => {
+        let value = activateImageConatiner(i, e);
+        console.log("index", value);
+        showSliderChanges(value);
+      };
       dogBreedImageConatiner.className = "image-conatiner";
       dogBreedImage.src = breedImageList;
       if (dogBreedImage.src === breedImageArray[0]) {
@@ -58,27 +63,28 @@ function displayImageData(data) {
     breedImageContainer.append(...nodes);
   }
 }
-function activateImageConatiner(imageCurrentIndex, e, imageArry) {
+function activateImageConatiner(imageCurrentIndex, e) {
   if (imageCurrentIndex !== previousIndex) {
     images[previousIndex].classList.remove("active");
     previousIndex = imageCurrentIndex;
-    currentIndex = imageCurrentIndex;
     e.target.classList.add("active");
-    console.log(previousIndex, imageCurrentIndex, currentIndex);
+    let mainConatinerImage = maincontainer.firstChild;
+    mainConatinerImage.src = images[previousIndex].src;
+    console.log(previousIndex, images[previousIndex]);
+    return previousIndex;
   } else {
+    console.log("previous index", previousIndex);
     e.target.classList.remove("active");
+    return previousIndex;
   }
 }
 
 function showDropDownData(dogBreedNameList) {
-  const selectList = document.querySelector("#selectList");
   const nodes = dogBreedNameList.map((dogBreedNameList) => {
     const option = document.createElement("option");
     option.className = "selectCustom-option";
     option.textContent = dogBreedNameList;
     option.addEventListener("click", () => {
-      const maincontainer = document.querySelector("#main-image");
-      const breedImageContainer = document.querySelector("#image-conatiner");
       if (
         maincontainer.hasChildNodes() ||
         breedImageContainer.hasChildNodes()

@@ -1,129 +1,62 @@
-import { findElementByClassName, querySlecetor } from "./constant";
+import {
+  findElementByClassName,
+  querySlecetor,
+  currentIndeValue,
+} from "./constant";
 
-const previous = findElementByClassName("prev");
-const next = findElementByClassName("next");
+const previousButtons = findElementByClassName("prev");
+const nextButtons = findElementByClassName("next");
 const images = findElementByClassName("dog-image");
 const maincontainer = querySlecetor("#main-image");
 const breedImageContainer = querySlecetor("#image-conatiner");
 const selectList = querySlecetor("#selectList");
 
-function showSliderChanges(updateCurrentIndex = 0) {
-  let currentIndex = 0;
-  console.log("previous value", updateCurrentIndex);
-  currentIndex = updateCurrentIndex;
-
-  for (let prevBtn of previous) {
+// slider buttons Functionality
+function showSliderChanges(updateCurrentIndex = currentIndeValue) {
+  let currentIndex = updateCurrentIndex;
+  // previous button functionality
+  for (let prevBtn of previousButtons) {
     prevBtn.addEventListener("click", function onClick() {
-      console.log("prev currentIndex", currentIndex);
+      removeActiveClass(images);
+      let slideCount = images.length - 1;
+      images[currentIndex].classList.remove("active");
+      let nextImage;
+      currentIndex === slideCount
+        ? (nextImage = 0)
+        : (nextImage = currentIndex - 1);
 
-      if (currentIndex === images.length - 1) {
-        prevBtn.classList.add("enabled");
-        previous[0].classList.add("enabled");
-        images[currentIndex].classList.remove("active");
-        images[currentIndex - 1].classList.add("active");
-      }
-      for (let i = currentIndex; i <= images.length - 1; i++) {
-        console.log("bhbdsewbdfhsw", currentIndex);
-        if (currentIndex === 1) {
-          prevBtn.classList.remove("enabled");
-          previous[0].classList.remove("enabled");
-        }
-
-        currentIndex = i;
-
-        if (images[currentIndex].classList.contains("active")) {
-          images[currentIndex - 1].classList.remove("active");
-        }
-        if (currentIndex == 0) {
-          images[currentIndex - 1].classList.remove("active");
-        }
-
-        if (
-          currentIndex - 1 !== currentIndex &&
-          currentIndex - 1 < images.length - 1 &&
-          currentIndex > 0
-        ) {
-          let mainConatinerImage = maincontainer.firstChild;
-          mainConatinerImage.src = images[currentIndex - 1].src;
-
-          images[currentIndex - 1].classList.add("active");
-
-          console.log(images[currentIndex - 1]);
-          currentIndex--;
-          console.log("decremeneted index", currentIndex);
-          break;
-        }
-      }
+      moveSlides(nextImage);
+      currentIndex = nextImage;
     });
   }
-
-  for (let nextBtn of next) {
+  // next button functionality
+  for (let nextBtn of nextButtons) {
     nextBtn.addEventListener("click", function onClick() {
-      console.log("next currentIndex", currentIndex);
-      if (currentIndex + 1 == images.length - 1) {
-        nextBtn.classList.add("disabled");
-        next[0].classList.add("disabled");
-      }
-      for (let i = currentIndex; i <= images.length - 1; i++) {
-        if (currentIndex == 0) {
-          nextBtn.classList.remove("disabled");
-          next[0].classList.remove("disabled");
-        }
-        currentIndex = i;
-        if (images[currentIndex].classList.contains("active")) {
-          images[currentIndex].classList.remove("active");
-        }
-
-        if (
-          currentIndex + 1 !== currentIndex &&
-          currentIndex + 1 < images.length
-        ) {
-          let mainConatinerImage = maincontainer.firstChild;
-          mainConatinerImage.src = images[currentIndex + 1].src;
-          images[currentIndex + 1].classList.add("active");
-          currentIndex++;
-          break;
-        }
-      }
+      removeActiveClass(images);
+      let slideCount = images.length - 1;
+      images[currentIndex].classList.remove("active");
+      let nextImage;
+      currentIndex === slideCount
+        ? (nextImage = 0)
+        : (nextImage = currentIndex + 1);
+      moveSlides(nextImage);
+      currentIndex = nextImage;
     });
   }
 }
-let currentPage = 1;
-const paginationLimit = 10;
-const pageCount = 5;
-// disable and enable button
-const disableButton = (button) => {
-  button.classList.add("disabled");
-  button.setAttribute("disabled", true);
-};
-
-const enableButton = (button) => {
-  button.classList.remove("disabled");
-  button.removeAttribute("disabled");
-};
-
-const handlePageButtonsStatus = () => {
-  if (currentPage === 1) {
-    disableButton(prevButton);
-  } else {
-    enableButton(prevButton);
+// remove active class
+function removeActiveClass(dogImages) {
+  for (let image of dogImages) {
+    image.classList.remove("active");
   }
-
-  if (pageCount === currentPage) {
-    disableButton(nextButton);
-  } else {
-    enableButton(nextButton);
-  }
-};
-const handleActivePageNumber = () => {
-  document.querySelectorAll("#image-conatiner").forEach((img) => {
-    img.classList.remove("active");
-    const pageIndex = Number(img.getAttribute("page-index"));
-    if (pageIndex == currentPage) {
-      img.classList.add("active");
-    }
-  });
-};
+}
+// toggle slides functionality
+function moveSlides(nextImage) {
+  images[nextImage].classList.add("active");
+  let mainConatinerImage = maincontainer.firstChild;
+  mainConatinerImage.src = images[nextImage].src;
+}
+// drop down functionality
 function showDropDown() {
   const customSelectBtn = document.getElementsByClassName("selectCustom")[0];
   const customSelectDefaultValue = customSelectBtn.children[0];
@@ -134,7 +67,6 @@ function showDropDown() {
     Array.from(customSelectOptions.children).forEach(function (option) {
       option.addEventListener("click", (e) => {
         customSelectDefaultValue.textContent = e.target.textContent;
-
         customSelectBtn.classList.remove("isActive");
       });
     });
@@ -148,22 +80,9 @@ function showDropDown() {
     }
   });
 }
+
 function removeAllChildNodes(parent) {
   while (parent.firstChild) {
-    for (let prevBtn of previous) {
-      if (prevBtn.classList.contains("enabled")) {
-        prevBtn.classList.add("disabled");
-      } else {
-        prevBtn.classList.remove("disabled");
-      }
-    }
-    for (let nextBtn of next) {
-      if (nextBtn.classList.contains("disabled")) {
-        nextBtn.classList.add("enabled");
-      } else {
-        nextBtn.classList.remove("enabled");
-      }
-    }
     parent.removeChild(parent.firstChild);
   }
 }
@@ -185,4 +104,5 @@ export {
   maincontainer,
   breedImageContainer,
   selectList,
+  removeActiveClass,
 };

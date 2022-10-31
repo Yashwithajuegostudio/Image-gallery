@@ -7,11 +7,13 @@ import {
   showSliderChanges,
   maincontainer,
   breedImageContainer,
+  removeActiveClass,
 } from "./helper";
-import { dogBreedNameUrl } from "./constant";
+import { dogBreedNameUrl, dogBreedImageUrl } from "./constant";
 getApiCall(dogBreedNameUrl, displayBreedName);
 let previousIndex = 0;
 
+// call API to fetch Select list data
 function displayBreedName(data) {
   const breedNameArray = Object.keys(data.message).filter(
     (key) => key.length > 0
@@ -21,18 +23,19 @@ function displayBreedName(data) {
 // display drop down
 showDropDown();
 // slider changes
-// showSliderChanges();
-// display Image data
+showSliderChanges();
+// call API to fetch Image data
 function getBreedImageApiData(breedName) {
-  const dogBreedImageUrl = `https://dog.ceo/api/breed/${breedName}/images`;
-  getApiCall(dogBreedImageUrl, displayImageData);
+  getApiCall(
+    dogBreedImageUrl.replace(`breed/`, `breed/${breedName}/`),
+    displayImageData
+  );
 }
-
+// display breed name in select option list
 function displayImageData(data) {
   const breedImageArray = Object.values(data.message).filter(
     (value) => value.length > 0
   );
-
   if (!maincontainer.hasChildNodes()) {
     const mainImage = document.createElement("img");
     mainImage.src = breedImageArray[0];
@@ -44,12 +47,12 @@ function displayImageData(data) {
       const dogBreedImageConatiner = document.createElement("div");
       const dogBreedImage = document.createElement("img");
       dogBreedImage.className = "dog-image";
+      dogBreedImage.id = "imageId";
       dogBreedImage.onclick = (e) => {
-        let value = activateImageConatiner(i, e);
-        console.log("index", value);
-        showSliderChanges(value);
+        let imageCurrentIndex = activateImageConatiner(i, e);
+        showSliderChanges(imageCurrentIndex);
       };
-      dogBreedImageConatiner.className = "image-conatiner";
+      dogBreedImageConatiner.className = "image-conatiner slider";
       dogBreedImage.src = breedImageList;
       if (dogBreedImage.src === breedImageArray[0]) {
         dogBreedImage.className = "dog-image active";
@@ -63,22 +66,22 @@ function displayImageData(data) {
     breedImageContainer.append(...nodes);
   }
 }
+// Add active class for the Clicked image
 function activateImageConatiner(imageCurrentIndex, e) {
   if (imageCurrentIndex !== previousIndex) {
+    removeActiveClass(images);
     images[previousIndex].classList.remove("active");
     previousIndex = imageCurrentIndex;
     e.target.classList.add("active");
     let mainConatinerImage = maincontainer.firstChild;
     mainConatinerImage.src = images[previousIndex].src;
-    console.log(previousIndex, images[previousIndex]);
     return previousIndex;
   } else {
-    console.log("previous index", previousIndex);
-    e.target.classList.remove("active");
+    removeActiveClass(images);
     return previousIndex;
   }
 }
-
+// display dropdown select list
 function showDropDownData(dogBreedNameList) {
   const nodes = dogBreedNameList.map((dogBreedNameList) => {
     const option = document.createElement("option");

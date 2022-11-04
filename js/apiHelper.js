@@ -1,5 +1,7 @@
-async function getApiCall(getUrl, getData) {
-  await fetch(getUrl, {
+import { basePath } from "./constant";
+
+export async function getApiCall(getUrl, getData) {
+  await fetch(basePath + getUrl, {
     method: "GET",
   })
     .then((response) => {
@@ -11,4 +13,3 @@ async function getApiCall(getUrl, getData) {
     .then((data) => getData(data))
     .catch((error) => console.error(error));
 }
-export { getApiCall };

@@ -1,25 +1,28 @@
 import {
   findElementByClassName,
-  querySlecetor,
-  currentIndeValue,
+  querySelector,
+  currentIndexValue,
+  activeClass,
+  checkActiveClass,
+  selectCustomAttribute,
 } from "./constant";
 
 const previousButtons = findElementByClassName("prev");
 const nextButtons = findElementByClassName("next");
-const images = findElementByClassName("dog-image");
-const maincontainer = querySlecetor("#main-image");
-const breedImageContainer = querySlecetor("#image-conatiner");
-const selectList = querySlecetor("#selectList");
+export const images = findElementByClassName("dog-image");
+export const mainContainer = querySelector("#main-image");
+export const breedImageContainer = querySelector("#image-container");
+export const selectList = querySelector("#selectList");
 
 // slider buttons Functionality
-function showSliderChanges(updateCurrentIndex = currentIndeValue) {
+export function showSliderChanges(updateCurrentIndex = currentIndexValue) {
   let currentIndex = updateCurrentIndex;
   // previous button functionality
   for (let prevBtn of previousButtons) {
     prevBtn.addEventListener("click", function onClick() {
       removeActiveClass(images);
       let slideCount = images.length - 1;
-      images[currentIndex].classList.remove("active");
+      images[currentIndex].classList.remove(activeClass);
       let nextImage;
       currentIndex === slideCount
         ? (nextImage = 0)
@@ -34,7 +37,7 @@ function showSliderChanges(updateCurrentIndex = currentIndeValue) {
     nextBtn.addEventListener("click", function onClick() {
       removeActiveClass(images);
       let slideCount = images.length - 1;
-      images[currentIndex].classList.remove("active");
+      images[currentIndex].classList.remove(activeClass);
       let nextImage;
       currentIndex === slideCount
         ? (nextImage = 0)
@@ -45,20 +48,22 @@ function showSliderChanges(updateCurrentIndex = currentIndeValue) {
   }
 }
 // remove active class
-function removeActiveClass(dogImages) {
+export function removeActiveClass(dogImages) {
   for (let image of dogImages) {
-    image.classList.remove("active");
+    image.classList.remove(activeClass);
   }
 }
 // toggle slides functionality
 function moveSlides(nextImage) {
-  images[nextImage].classList.add("active");
-  let mainConatinerImage = maincontainer.firstChild;
-  mainConatinerImage.src = images[nextImage].src;
+  images[nextImage].classList.add(activeClass);
+  let mainContainerImage = mainContainer.firstChild;
+  mainContainerImage.src = images[nextImage].src;
 }
 // drop down functionality
-function showDropDown() {
-  const customSelectBtn = document.getElementsByClassName("selectCustom")[0];
+export function showDropDown() {
+  const customSelectBtn = document.getElementsByClassName(
+    selectCustomAttribute.title
+  )[0];
   const customSelectDefaultValue = customSelectBtn.children[0];
   const customSelectOptions = customSelectBtn.children[1];
 
@@ -67,42 +72,26 @@ function showDropDown() {
     Array.from(customSelectOptions.children).forEach(function (option) {
       option.addEventListener("click", (e) => {
         customSelectDefaultValue.textContent = e.target.textContent;
-        customSelectBtn.classList.remove("isActive");
+        customSelectBtn.classList.remove(checkActiveClass);
       });
     });
-    customSelectBtn.classList.toggle("isActive");
+    customSelectBtn.classList.toggle(checkActiveClass);
   });
   // close the custom select when clicking outside.
   document.addEventListener("click", (e) => {
     const didClickedOutside = !customSelectBtn.contains(e.target);
     if (didClickedOutside) {
-      customSelectBtn.classList.remove("isActive");
+      customSelectBtn.classList.remove(checkActiveClass);
     }
   });
 }
 
-function removeAllChildNodes(parent) {
+export function removeAllChildNodes(parent) {
+  if (parent.firstChild) {
+    const child = parent.lastChild;
+    parent.removeChild(child);
+  }
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
 }
-
-function removeSingleChildNode(parent) {
-  const child = parent.lastChild;
-  parent.removeChild(child);
-}
-
-export {
-  showDropDown,
-  removeAllChildNodes,
-  removeSingleChildNode,
-  images,
-  currentIndex,
-  mainDogImageContainer,
-  updateCurrentIndex,
-  showSliderChanges,
-  maincontainer,
-  breedImageContainer,
-  selectList,
-  removeActiveClass,
-};

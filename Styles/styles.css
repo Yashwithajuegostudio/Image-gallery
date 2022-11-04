@@ -4,10 +4,10 @@
   margin: 0;
   padding: 0;
 }
-.gallery-conatiner {
+.gallery-container {
   padding: 2rem 0.5rem;
 }
-.main-conatiner {
+.main-container {
   display: flex;
   gap: 3rem;
   justify-content: center;
@@ -23,7 +23,7 @@
 .main-image img {
   border-radius: 2rem;
 }
-.gallery-image-conatiner {
+.gallery-image-container {
   width: 50%;
   display: flex;
   justify-content: space-between;
@@ -146,7 +146,7 @@ img {
   border-bottom: 0.1rem solid black;
   cursor: pointer;
 }
-.image-conatiner {
+.image-container {
   border-radius: 1rem;
   width: 5rem;
   cursor: pointer;

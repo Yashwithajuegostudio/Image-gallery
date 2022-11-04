@@ -2,15 +2,21 @@ import { getApiCall } from "./apiHelper";
 import {
   showDropDown,
   removeAllChildNodes,
-  removeSingleChildNode,
   images,
   showSliderChanges,
-  maincontainer,
+  mainContainer,
   breedImageContainer,
   removeActiveClass,
 } from "./helper";
-import { dogBreedNameUrl, dogBreedImageUrl } from "./constant";
-getApiCall(dogBreedNameUrl, displayBreedName);
+import {
+  activeClass,
+  imageAttribute,
+  imageContainerAttribute,
+  optionAttribute,
+  dogBreedNameList,
+  dogBreedImages,
+} from "./constant";
+getApiCall(dogBreedNameList, displayBreedName);
 let previousIndex = 0;
 
 // call API to fetch Select list data
@@ -27,7 +33,7 @@ showSliderChanges();
 // call API to fetch Image data
 function getBreedImageApiData(breedName) {
   getApiCall(
-    dogBreedImageUrl.replace(`breed/`, `breed/${breedName}/`),
+    dogBreedImages.replace(`breed/`, `breed/${breedName}/`),
     displayImageData
   );
 }
@@ -36,45 +42,47 @@ function displayImageData(data) {
   const breedImageArray = Object.values(data.message).filter(
     (value) => value.length > 0
   );
-  if (!maincontainer.hasChildNodes()) {
-    const mainImage = document.createElement("img");
+  if (!mainContainer.hasChildNodes()) {
+    const mainImage = document.createElement(imageAttribute.title);
     mainImage.src = breedImageArray[0];
-    mainImage.id = "main-dog-image";
-    maincontainer.appendChild(mainImage);
+    mainImage.id = imageContainerAttribute.id;
+    mainContainer.appendChild(mainImage);
   }
   if (!breedImageContainer.hasChildNodes()) {
     const nodes = breedImageArray.map((breedImageList, i) => {
-      const dogBreedImageConatiner = document.createElement("div");
-      const dogBreedImage = document.createElement("img");
-      dogBreedImage.className = "dog-image";
-      dogBreedImage.id = "imageId";
+      const dogBreedImageContainer = document.createElement(
+        imageContainerAttribute.title
+      );
+      const dogBreedImage = document.createElement(imageAttribute.title);
+      dogBreedImage.className = imageAttribute.className;
+      dogBreedImage.id = imageAttribute.id;
       dogBreedImage.onclick = (e) => {
-        let imageCurrentIndex = activateImageConatiner(i, e);
+        let imageCurrentIndex = activateImageContainer(i, e);
         showSliderChanges(imageCurrentIndex);
       };
-      dogBreedImageConatiner.className = "image-conatiner slider";
+      dogBreedImageContainer.className = imageContainerAttribute.className;
       dogBreedImage.src = breedImageList;
       if (dogBreedImage.src === breedImageArray[0]) {
-        dogBreedImage.className = "dog-image active";
+        dogBreedImage.className = imageAttribute.activeImage;
       }
-      dogBreedImageConatiner.appendChild(dogBreedImage);
+      dogBreedImageContainer.appendChild(dogBreedImage);
       dogImageArray = dogBreedImage;
 
-      return dogBreedImageConatiner;
+      return dogBreedImageContainer;
     });
 
     breedImageContainer.append(...nodes);
   }
 }
 // Add active class for the Clicked image
-function activateImageConatiner(imageCurrentIndex, e) {
+function activateImageContainer(imageCurrentIndex, e) {
   if (imageCurrentIndex !== previousIndex) {
     removeActiveClass(images);
-    images[previousIndex].classList.remove("active");
+    images[previousIndex].classList.remove(activeClass);
     previousIndex = imageCurrentIndex;
-    e.target.classList.add("active");
-    let mainConatinerImage = maincontainer.firstChild;
-    mainConatinerImage.src = images[previousIndex].src;
+    e.target.classList.add(activeClass);
+    let mainContainerImage = mainContainer.firstChild;
+    mainContainerImage.src = images[previousIndex].src;
     return previousIndex;
   } else {
     removeActiveClass(images);
@@ -84,15 +92,15 @@ function activateImageConatiner(imageCurrentIndex, e) {
 // display dropdown select list
 function showDropDownData(dogBreedNameList) {
   const nodes = dogBreedNameList.map((dogBreedNameList) => {
-    const option = document.createElement("option");
-    option.className = "selectCustom-option";
+    const option = document.createElement(optionAttribute.title);
+    option.className = optionAttribute.className;
     option.textContent = dogBreedNameList;
     option.addEventListener("click", () => {
       if (
-        maincontainer.hasChildNodes() ||
+        mainContainer.hasChildNodes() ||
         breedImageContainer.hasChildNodes()
       ) {
-        removeSingleChildNode(maincontainer);
+        removeAllChildNodes(mainContainer);
         removeAllChildNodes(breedImageContainer);
       }
       getBreedImageApiData(option.value);
